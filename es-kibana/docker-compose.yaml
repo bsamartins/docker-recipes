@@ -8,7 +8,6 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
-      - "reindex.remote.whitelist=localhost:*,192.168.*:*"
     deploy:
       resources: 
         limits: 
@@ -18,11 +17,11 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - esdata1:/usr/share/elasticsearch/data
+      - es-kibana-data-master:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
-      - esnet
+      - es-kibana-net
   es-node:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.0.0
     environment:
@@ -31,7 +30,6 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=es-master"
       - xpack.security.enabled=false
-      - "reindex.remote.whitelist=localhost:*,192.168.*:*"
     deploy:
       resources:
         limits: 
@@ -41,9 +39,9 @@ services:
         soft: -1
         hard: -1        
     volumes:
-      - esdata2:/usr/share/elasticsearch/data
+      - es-kibana-data-node1:/usr/share/elasticsearch/data
     networks:
-      - esnet
+      - es-kibana-net
   kibana:
     image: docker.elastic.co/kibana/kibana:6.0.0
     ports:
@@ -55,13 +53,13 @@ services:
     ports:
       - 5601:5601      
     networks:
-      - esnet
+      - es-kibana-net
 
 volumes:
-  esdata1:
+  es-kibana-data-master:
     driver: local
-  esdata2:
+  es-kibana-data-node1:
     driver: local
 
 networks:
-  esnet:
+  es-kibana-net:
