@@ -1,0 +1,9 @@
+apiVersion: 1
+
+datasources:
+  - name: influxdb
+    type: influxdb
+    version: 1
+    url: http://influxdb:8086
+    database: db0
+    editable: false

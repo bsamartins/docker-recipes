@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  influxdb:
+    image: influxdb
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=password
+    ports:
+      - 8086:8086
+#  disable influxdb admin dashboard
+#  chronograf:
+#    image: chronograf
+#    ports:
+#      - '8888:8888'
+#    depends_on:
+#      - influxdb
+#    environment:
+#      - INFLUXDB_URL=http://influxdb:8086
+#      - INFLUXDB_USERNAME=admin
+#      - INFLUXDB_PASSWORD=password
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config/grafana:/etc/grafana/provisioning
