@@ -2,4 +2,5 @@
 
 | Name | Description |
 | --- | --- |
-| elastic-kibana | Elastic with Grafana |
+| elastic-kibana | Elastic with Kibana |
+| prometheus-grafana | Prometheus with Grafana |
