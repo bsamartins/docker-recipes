@@ -1,0 +1,30 @@
+services:
+  kafka:
+    extends:
+      file: ../kafka/docker-compose.yaml
+      service: kafka
+  kafkaui:
+    extends:
+      file: ../kafka/docker-compose.yaml
+      service: kafkaui
+  debezium:
+    image: debezium/server:latest
+    links:
+      - postgres
+      - kafka
+    depends_on:
+      - postgres
+      - kafka
+    volumes:
+      - ./debezium.properties:/debezium/conf/application.properties
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+
